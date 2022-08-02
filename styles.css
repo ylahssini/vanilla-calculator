@@ -7,10 +7,11 @@
 button {
   background: transparent;
   border: 0;
+  cursor: pointer;
 }
 
 body {
-  background-color: #fafafa;
+  background-color: #f2f2f2;
   font: 300 1rem "Raleway", sans-serif;
   display: flex;
   align-items: center;
@@ -23,6 +24,64 @@ main {
 }
 
 .calculator {
+  background-color: #fff;
   border-radius: 12px;
+}
+
+.calculator--theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .5rem;
   
+  --dark: #121212;
+  --light: #f2f3f4;
+  --red: darkred;
+  --green: darkgreen;
+  --blue: darkblue;
+}
+
+.calculator--theme > button {
+  background-color: #fff;
+  border: 2px solid;
+  border-radius: 50em;
+  display: block;
+  height: 20px;
+  width: 20px;
+}
+
+button.calculator--theme--light {
+  border-color: var(--light);
+}
+
+button.calculator--theme--dark {
+  border-color: var(--dark);
+}
+
+button.calculator--theme--red {
+  border-color: var(--red);
+}
+
+button.calculator--theme--green {
+  border-color: var(--green);
+}
+
+button.calculator--theme--blue {
+  border-color: var(--blue);
+}
+
+.calculator--app > header {
+  padding: .5rem;
+  text-align: right;
+}
+
+.calculator--app small {
+  color: #787878;
+  display: block;
+}
+
+.calculator--app strong {
+  color: #121212;
+  display: block;
 }
