@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background: transparent;
+  border: 0;
+}
+
+body {
+  background-color: #fafafa;
+  font: 300 1rem "Raleway", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+main {
+  width: 90%;
+}
+
+.calculator {
+  border-radius: 12px;
+  
+}
