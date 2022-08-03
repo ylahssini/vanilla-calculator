@@ -18,9 +18,6 @@
       <aside class="calculator--theme">
         <button class="calculator--theme--light" data-theme="light"></button>
         <button class="calculator--theme--dark" data-theme="dark"></button>
-        <button class="calculator--theme--red" data-theme="red"></button>
-        <button class="calculator--theme--green" data-theme="green"></button>
-        <button class="calculator--theme--blue" data-theme="blue"></button>
       </aside>
       
       <div class="calculator--app">
@@ -29,7 +26,7 @@
           <strong data-result>0</strong>
         </header>
         
-        <footer>
+        <footer class="calculator--app--buttons">
           <button type="button">C</button>
           <button type="button">+/-</button>
           <button type="button">()</button>
@@ -46,16 +43,16 @@
           <button type="button">8</button>
           <button type="button">9</button>
           <button type="button">+</button>
-          <button type="button">0</button>
+          <button type="button" data-key="0">0</button>
           <button type="button">.</button>
-          <button type="button">=</button>
+          <button type="button" data-key="=">=</button>
         </footer>
       </div>
     </section>
     
-    <footer>
+    <footer class="by">
       <p>
-        Created by <a href="https://ylahssini.vercel.app" target="_blank">Youssef Lahssini</a> in Spck editor
+        Created by <a href="https://ylahssini.vercel.app" target="_blank">Youssef Lahssini</a> and edited in Spck editor
       </p>
     </footer>
   </main>

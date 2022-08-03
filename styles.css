@@ -2,6 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -20,7 +21,21 @@ body {
 }
 
 main {
-  width: 90%;
+  width: min-content;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 0 0 1rem;
+}
+
+.by {
+  font-size: .7rem;
+  padding: 1rem 2rem 0;
+  text-align: center;
+  width: 100%;
 }
 
 .calculator {
@@ -37,9 +52,6 @@ main {
   
   --dark: #121212;
   --light: #f2f3f4;
-  --red: darkred;
-  --green: darkgreen;
-  --blue: darkblue;
 }
 
 .calculator--theme > button {
@@ -59,18 +71,6 @@ button.calculator--theme--dark {
   border-color: var(--dark);
 }
 
-button.calculator--theme--red {
-  border-color: var(--red);
-}
-
-button.calculator--theme--green {
-  border-color: var(--green);
-}
-
-button.calculator--theme--blue {
-  border-color: var(--blue);
-}
-
 .calculator--app > header {
   padding: .5rem;
   text-align: right;
@@ -84,4 +84,34 @@ button.calculator--theme--blue {
 .calculator--app strong {
   color: #121212;
   display: block;
+  font-size: 1.9rem;
+}
+
+.calculator--app--buttons {
+  border-radius: 12px;
+  background-color: #f8f8f8;
+  display: grid;
+  grid-template-rows: repeat(5, 60px);
+  grid-template-columns: repeat(4, 60px);
+  width: fit-content;
+}
+
+.calculator--app--buttons > button {
+  border-radius: 12px;
+  font-size: 1.35rem;
+  font-weight: 300;
+  height: 60px;
+  width: 60px;
+  transition: all .23s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+@media (pointer: coarse) {
+  .calculator--app--buttons > button:active {
+    background-color: rgba(0, 0, 0, 0.115);
+    border-radius: 12px;
+  }
+}
+
+button[data-key="="] {
+  width: 120px;
 }
