@@ -77,15 +77,20 @@ button.calculator--theme--dark {
   text-align: right;
 }
 
-.calculator--app small {
-  color: #787878;
+.calculator--app b, .calculator--app strong {
   display: block;
+}
+
+.calculator--app b {
+  color: #787878;
+  font-size: 1.25rem;
+  min-height: 25px;
 }
 
 .calculator--app strong {
   color: #121212;
-  display: block;
   font-size: 1.9rem;
+  min-height: 40px;
 }
 
 .calculator--app--buttons {
