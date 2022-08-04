@@ -1,4 +1,4 @@
-document.documentElement.className = 'light';
+  document.documentElement.className = 'light';
 
 class Calculator {
   #result = ''
@@ -9,13 +9,17 @@ class Calculator {
     return last;
   }
   
+  #isNumber(value) {
+    return /\d+/g.test(value);
+  }
+  
   #updateLastNumber(value) {
     const last = this.#getLastItem();
     const index = this.#chain.indexOf(last);
     
-    if (!/\d+/g.test(last)) {
+    if (!this.#isNumber(last)) {
       this.#chain.push(parseFloat(value));
-      return false;
+      return;
     }
     
     this.#chain[index] = parseFloat(`${last}${value}`);
@@ -44,12 +48,17 @@ class Calculator {
     
     if (isNumber && this.#chain.length === 0) {
       this.#chain.push(number);
-      return true;
+      return;
     }
     
     if (isNumber) {
       this.#updateLastNumber(number);
-      return true;
+      return;
+    }
+    
+    if (!isNumber && this.#chain.length === 0) {
+      // @todo support ()
+      return;
     }
     
     const operator = {
@@ -61,6 +70,26 @@ class Calculator {
         this.#chain = [];
         this.#result = '';
       },
+      '<-': () => {
+        const last = this.#getLastItem();
+        const index = this.#chain.indexOf(last);
+        
+        if (this.#chain.length === 0) {
+          return;
+        }
+        
+        if (this.#isNumber(last)) {
+          this.#chain[index] = parseFloat(last.toString().slice(0, -1));
+          
+          if (Number.isNaN(this.#chain[index])) {
+            this.#chain = [];
+          }
+          
+          return;
+        }
+        
+        this.#chain = this.#chain.slice(0, this.#chain.length - 1);
+      },
       '+': () => {
         this.#chain.push(value);
       }
@@ -70,7 +99,7 @@ class Calculator {
       operator[value]();
     }
     
-    return false;
+    return;
   }
   
   result() {

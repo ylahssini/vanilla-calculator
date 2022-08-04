@@ -118,7 +118,3 @@ button.calculator--theme--dark {
     border-radius: 12px;
   }
 }
-
-button[data-key="="] {
-  grid-column: span 2;
-}
