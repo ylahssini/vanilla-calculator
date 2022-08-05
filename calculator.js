@@ -1,4 +1,4 @@
-  document.documentElement.className = 'light';
+document.documentElement.className = 'light';
 
 class Calculator {
   #result = ''
@@ -92,6 +92,9 @@ class Calculator {
       return;
     }
     
+    const last = this.#getLastItem();
+    const index = this.#chain.lastIndexOf(last);
+    
     const operator = {
       '=': () => {
         this.#updateResult();
@@ -102,17 +105,12 @@ class Calculator {
         this.#result = '';
       },
       '<-': () => {
-        const last = this.#getLastItem();
-        const index = this.#chain.lastIndexOf(last);
-        
         if (this.#chain.length === 0) {
           return;
         }
         
         if (this.#isNumber(last)) {
           this.#chain[index] = parseFloat(last.toString().slice(0, -1));
-          
-          console.log(this.#chain);
           
           if (Number.isNaN(this.#chain[index]) && index === 0) {
             this.#chain = [];
@@ -127,13 +125,39 @@ class Calculator {
         
         this.#chain = this.#chain.slice(0, this.#chain.length - 1);
       },
+      '.': () => {
+        const hasDot = last.toString().includes('.');
+
+        if (this.#chain.length ===0 || hasDot) {
+          return;
+        }
+
+        this.#chain[index] = `${this.#chain[index].toString()}.`;
+      },
+      '+/-': () => {
+        if (this.#isNumber(last)) {
+          if (last.toString().includes('-')) {
+            this.#chain[index] = last.toString().replace(/^-/g, '');
+            return;
+          }
+          
+          this.#chain[index] = `-${this.#chain[index]}`;
+        }
+      },
+      '()': () => {
+        
+      },
       action: () => {
+        if (!this.#isNumber(last)) {
+          return;
+        }
         this.#chain.push(value);
       },
     }
     
     if ('+-×÷'.includes(value)) {
       operator.action();
+      return;
     }
     
     if (value in operator) {
