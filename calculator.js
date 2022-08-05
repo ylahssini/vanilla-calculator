@@ -15,7 +15,7 @@ class Calculator {
   
   #updateLastNumber(value) {
     const last = this.#getLastItem();
-    const index = this.#chain.indexOf(last);
+    const index = this.#chain.lastIndexOf(last);
     
     if (!this.#isNumber(last)) {
       this.#chain.push(parseFloat(value));
@@ -26,15 +26,34 @@ class Calculator {
   }
   
   #updateResult() {
-    let result = this.#chain[0];
-  
-    for (let i = 1; i < this.#chain.length; i++) {
+    let chain = this.#chain;
+    
+    for (let i = 0; i < this.#chain.length; i++) {
       const element = this.#chain[i];
-      const next = this.#chain[i + 1];
+
+      if (element === '×') {
+        const prev = this.#chain[i - 1];
+        const next = this.#chain[i + 1];
+        
+        chain[i + 1] = prev * next;
+        chain[i] = undefined;
+        chain[i - 1] = undefined;
+      }
+    }
+    
+    chain = chain.filter((item) => item !== undefined);
+    
+    let result = chain[0];
+  
+    for (let i = 1; i < chain.length; i++) {
+      const element = chain[i];
+      const next = chain[i + 1];
       
       if (typeof element === 'string') {
         if (element === '+') {
           result = next + result;
+        } else if (element === '-') {
+          result = result - next;
         }
       }
     }
@@ -72,7 +91,7 @@ class Calculator {
       },
       '<-': () => {
         const last = this.#getLastItem();
-        const index = this.#chain.indexOf(last);
+        const index = this.#chain.lastIndexOf(last);
         
         if (this.#chain.length === 0) {
           return;
@@ -81,8 +100,14 @@ class Calculator {
         if (this.#isNumber(last)) {
           this.#chain[index] = parseFloat(last.toString().slice(0, -1));
           
-          if (Number.isNaN(this.#chain[index])) {
+          console.log(this.#chain);
+          
+          if (Number.isNaN(this.#chain[index]) && index === 0) {
             this.#chain = [];
+          }
+          
+          if (Number.isNaN(this.#chain[index])) {
+            this.#chain = this.#chain.slice(0, index);
           }
           
           return;
@@ -91,6 +116,12 @@ class Calculator {
         this.#chain = this.#chain.slice(0, this.#chain.length - 1);
       },
       '+': () => {
+        this.#chain.push(value);
+      },
+      '-': () => {
+        this.#chain.push(value);
+      },
+      '×': () => {
         this.#chain.push(value);
       }
     }
