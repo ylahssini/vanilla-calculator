@@ -25,16 +25,16 @@ class Calculator {
     this.#chain[index] = parseFloat(`${last}${value}`);
   }
   
-  #updateResult() {
-    let chain = this.#chain;
-    
-    for (let i = 0; i < this.#chain.length; i++) {
-      const element = this.#chain[i];
+  #updateChainByHighOperator(list, operator) {
+    let chain = list;
 
+    for (let i = 0; i < chain.length; i++) {
+      const element = chain[i];
+    
       if (element === '×') {
-        const prev = this.#chain[i - 1];
-        const next = this.#chain[i + 1];
-        
+        const prev = chain[i - 1];
+        const next = chain[i + 1];
+    
         chain[i + 1] = prev * next;
         chain[i] = undefined;
         chain[i - 1] = undefined;
@@ -42,6 +42,13 @@ class Calculator {
     }
     
     chain = chain.filter((item) => item !== undefined);
+    
+    return chain;
+  }
+  
+  #updateResult() {
+    let chain = this.#updateChainByHighOperator(this.#chain, '×');
+    chain = this.#updateChainByHighOperator(chain, '÷')
     
     let result = chain[0];
   
@@ -115,15 +122,13 @@ class Calculator {
         
         this.#chain = this.#chain.slice(0, this.#chain.length - 1);
       },
-      '+': () => {
+      action: () => {
         this.#chain.push(value);
       },
-      '-': () => {
-        this.#chain.push(value);
-      },
-      '×': () => {
-        this.#chain.push(value);
-      }
+    }
+    
+    if ('+-×÷'.includes(value)) {
+      operator.action();
     }
     
     if (value in operator) {
