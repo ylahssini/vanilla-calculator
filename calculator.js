@@ -31,11 +31,16 @@ class Calculator {
     for (let i = 0; i < chain.length; i++) {
       const element = chain[i];
     
-      if (element === '×') {
+      if (element === operator) {
         const prev = chain[i - 1];
         const next = chain[i + 1];
-    
-        chain[i + 1] = prev * next;
+
+        if (operator === '×') {
+          chain[i + 1] = prev * next;
+        } else if (operator === '÷') {
+          chain[i + 1] = prev / next;
+        }
+
         chain[i] = undefined;
         chain[i - 1] = undefined;
       }
