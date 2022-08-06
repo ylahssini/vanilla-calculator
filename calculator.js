@@ -2,35 +2,97 @@ document.documentElement.className = 'light';
 
 class Calculator {
   #result = ''
+  #operation = ''
   #chain = []
-  
+
   #getLastItem() {
     const [last] = this.#chain.slice(-1);
     return last;
   }
-  
+
   #isNumber(value) {
     return /\d+/g.test(value);
   }
-  
+
   #updateLastNumber(value) {
     const last = this.#getLastItem();
     const index = this.#chain.lastIndexOf(last);
-    
+
     if (!this.#isNumber(last)) {
+      if (last === ')') {
+        this.#chain.push('×');
+      }
+
       this.#chain.push(parseFloat(value));
       return;
     }
-    
+
     this.#chain[index] = parseFloat(`${last}${value}`);
   }
-  
+
+  #updateChainBetweenParentheses(list) {
+    let chain = list;
+
+    for (let i = 0; i < list.length; i++) {
+      const element = list[i];
+
+      if (element === ')') {
+        let subchain = [];
+        let subindex = [];
+        let result = 0;
+
+        for (let j = i; j >= 0; j--) {
+          if (list[j] === '(') {
+            subindex.push(j);
+            break;
+          }
+
+          subchain.push(list[j]);
+          subindex.push(j);
+        }
+
+        subchain = this.#updateChainByHighOperator(subchain.reverse(), '×');
+        subchain = this.#updateChainByHighOperator(subchain, '÷');
+        result = this.#updateChainByOperator(subchain);
+
+        for (const index of subindex) {
+          chain[index] = undefined;
+        }
+
+        chain[i] = result;
+      }
+    }
+
+    return chain.filter((item) => (
+      item !== undefined
+    ));
+  }
+
+  #updateChainByOperator(chain) {
+    let result = chain[0];
+
+    for (let i = 1; i < chain.length; i++) {
+      const element = chain[i];
+      const next = chain[i + 1];
+
+      if (typeof element === 'string') {
+        if (element === '+') {
+          result = next + result;
+        } else if (element === '-') {
+          result = result - next;
+        }
+      }
+    }
+
+    return result;
+  }
+
   #updateChainByHighOperator(list, operator) {
     let chain = list;
 
     for (let i = 0; i < chain.length; i++) {
       const element = chain[i];
-    
+
       if (element === operator) {
         const prev = chain[i - 1];
         const next = chain[i + 1];
@@ -45,56 +107,42 @@ class Calculator {
         chain[i - 1] = undefined;
       }
     }
-    
+
     chain = chain.filter((item) => item !== undefined);
-    
+
     return chain;
   }
-  
+
   #updateResult() {
-    let chain = this.#updateChainByHighOperator(this.#chain, '×');
+    this.#operation = this.#chain.join(' ');
+
+    let chain = this.#updateChainBetweenParentheses(this.#chain);
+    chain = this.#updateChainByHighOperator(chain, '×');
     chain = this.#updateChainByHighOperator(chain, '÷')
-    
-    let result = chain[0];
-  
-    for (let i = 1; i < chain.length; i++) {
-      const element = chain[i];
-      const next = chain[i + 1];
-      
-      if (typeof element === 'string') {
-        if (element === '+') {
-          result = next + result;
-        } else if (element === '-') {
-          result = result - next;
-        }
-      }
-    }
-    
-    this.#result = result;
+
+    this.#result = this.#updateChainByOperator(chain);
   }
-  
+
   setValue(value) {
     const number = parseFloat(value);
     const isNumber = !Number.isNaN(number);
-    
+
     if (isNumber && this.#chain.length === 0) {
+      this.#operation = '';
       this.#chain.push(number);
       return;
     }
-    
+
     if (isNumber) {
+      this.#operation = '';
+
       this.#updateLastNumber(number);
       return;
     }
-    
-    if (!isNumber && this.#chain.length === 0) {
-      // @todo support ()
-      return;
-    }
-    
+
     const last = this.#getLastItem();
     const index = this.#chain.lastIndexOf(last);
-    
+
     const operator = {
       '=': () => {
         this.#updateResult();
@@ -103,32 +151,37 @@ class Calculator {
       c: () => {
         this.#chain = [];
         this.#result = '';
+        this.#operation = '';
       },
       '<-': () => {
         if (this.#chain.length === 0) {
           return;
         }
-        
+
         if (this.#isNumber(last)) {
           this.#chain[index] = parseFloat(last.toString().slice(0, -1));
-          
+
           if (Number.isNaN(this.#chain[index]) && index === 0) {
             this.#chain = [];
           }
-          
+
           if (Number.isNaN(this.#chain[index])) {
             this.#chain = this.#chain.slice(0, index);
           }
-          
+
           return;
         }
-        
+
         this.#chain = this.#chain.slice(0, this.#chain.length - 1);
       },
       '.': () => {
+        if (!this.#isNumber(last)) {
+          return;
+        }
+
         const hasDot = last.toString().includes('.');
 
-        if (this.#chain.length ===0 || hasDot) {
+        if (this.#chain.length === 0 || hasDot) {
           return;
         }
 
@@ -140,37 +193,65 @@ class Calculator {
             this.#chain[index] = last.toString().replace(/^-/g, '');
             return;
           }
-          
+
           this.#chain[index] = `-${this.#chain[index]}`;
         }
       },
       '()': () => {
-        
-      },
-      action: () => {
-        if (!this.#isNumber(last)) {
+        if (last === '(') {
           return;
         }
+
+        const openParentheses = this.#chain.filter((el) => el === '(');
+        const closeParentheses = this.#chain.filter((el) => el === ')');
+
+        if (openParentheses.length > closeParentheses.length) {
+          this.#chain.push(')');
+
+          return;
+        }
+
+        if (openParentheses.length < closeParentheses.length) {
+          this.#chain.push('(');
+          return;
+        }
+
+        if (this.#isNumber(last)) {
+          this.#chain.push('×');
+        }
+
+        this.#chain.push('(');
+      },
+      action: () => {
+        if (!this.#isNumber(last) && last !== ')') {
+          this.#chain[index] = value;
+          return;
+        }
+
         this.#chain.push(value);
       },
     }
-    
+
     if ('+-×÷'.includes(value)) {
       operator.action();
       return;
     }
-    
+
     if (value in operator) {
       operator[value]();
     }
-    
+
     return;
   }
-  
+
   result() {
     return this.#result;
   }
   
+  operation() {
+    return this.#operation;
+  }
+
   chain() {
     return this.#chain.join(' ');
   }
@@ -178,7 +259,7 @@ class Calculator {
 
 const buttons = document.querySelectorAll('button[data-key]');
 const result = document.querySelector('[data-result]');
-const sub = document.querySelector('[data-sub]');
+const operation = document.querySelector('[data-operation]');
 
 const calculator = new Calculator();
 
@@ -186,15 +267,17 @@ for (const button of buttons) {
   button.addEventListener('click', function() {
     const self = this;
     const value = self.getAttribute('data-key');
-    
+
     calculator.setValue(value);
-    
+    operation.innerHTML = '';
+
     if (value === '=') {
       result.innerHTML = calculator.result();
-      
+      operation.innerHTML = calculator.operation();
+
       return;
     }
-    
+
     result.innerHTML = calculator.chain();
     return;
   });

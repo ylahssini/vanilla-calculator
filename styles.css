@@ -50,12 +50,12 @@ h1 {
   justify-content: center;
   gap: .5rem;
   padding: .5rem;
-  
+
   --dark: #121212;
   --light: #f2f3f4;
 }
 
-.calculator--theme > button {
+.calculator--theme>button {
   background-color: #fff;
   border: 2px solid;
   border-radius: 50em;
@@ -72,12 +72,13 @@ button.calculator--theme--dark {
   border-color: var(--dark);
 }
 
-.calculator--app > header {
+.calculator--app>header {
   padding: .5rem;
   text-align: right;
 }
 
-.calculator--app b, .calculator--app strong {
+.calculator--app b,
+.calculator--app strong {
   display: block;
 }
 
@@ -91,6 +92,7 @@ button.calculator--theme--dark {
   color: #121212;
   font-size: 1.9rem;
   min-height: 40px;
+  word-break: break-all;
 }
 
 .calculator--app--buttons {
@@ -103,7 +105,7 @@ button.calculator--theme--dark {
   width: fit-content;
 }
 
-.calculator--app--buttons > button {
+.calculator--app--buttons>button {
   border-radius: 12px;
   font-size: 1.35rem;
   font-weight: 300;
@@ -113,7 +115,7 @@ button.calculator--theme--dark {
 }
 
 @media (pointer: coarse) {
-  .calculator--app--buttons > button:active {
+  .calculator--app--buttons>button:active {
     background-color: rgba(0, 0, 0, 0.115);
     border-radius: 12px;
   }
