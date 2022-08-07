@@ -21,6 +21,16 @@ body {
   height: 100vh;
 }
 
+a {
+  color: orangered;
+  text-decoration: none;
+  transition: all .2s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+a:hover {
+  color: darkred;
+}
+
 main {
   width: min-content;
 }
@@ -112,6 +122,11 @@ button.calculator--theme--dark {
   min-height: 60px;
   min-width: 60px;
   transition: all .23s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.calculator--app--buttons>button:nth-of-type(-n+3),
+.calculator--app--buttons>button:nth-of-type(4n) {
+  color: orangered;
 }
 
 @media (pointer: coarse) {

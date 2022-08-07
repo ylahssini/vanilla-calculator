@@ -20,7 +20,7 @@ class Calculator {
 
     if (!this.#isNumber(last)) {
       if (last === ')') {
-        this.#chain.push('×');
+        this.#chain.push('×')
       }
 
       this.#chain.push(parseFloat(value));
@@ -134,7 +134,10 @@ class Calculator {
     }
 
     if (isNumber) {
-      this.#operation = '';
+      if (this.#operation) {
+        this.#operation = '';
+        this.#chain = [];
+      }
 
       this.#updateLastNumber(number);
       return;
@@ -145,6 +148,10 @@ class Calculator {
 
     const operator = {
       '=': () => {
+        if (!this.#isNumber(last) && last !== ')') {
+          this.#chain.pop();
+        }
+
         this.#updateResult();
         this.#chain = [this.#result];
       },
