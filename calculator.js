@@ -149,6 +149,13 @@ class Calculator {
         if (!this.#isNumber(last) && last !== ')') {
           this.#chain.pop();
         }
+        
+        const openParentheses = this.#chain.filter((el) => el === '(');
+        const closeParentheses = this.#chain.filter((el) => el === ')');
+        
+        if (openParentheses.length > closeParentheses.length) {
+          this.#chain.push(')');
+        }
 
         this.#updateResult();
         this.#chain = [this.#result];
@@ -199,7 +206,7 @@ class Calculator {
             return;
           }
 
-          this.#chain[index] = `-${this.#chain[index]}`;
+          this.#chain[index] = parseFloat(`-${this.#chain[index]}`);
         }
       },
       '()': () => {
@@ -224,11 +231,23 @@ class Calculator {
         if (this.#isNumber(last)) {
           this.#chain.push('×');
         }
+        
+        if (last === ')') {
+          this.#chain.push('×');
+        }
 
         this.#chain.push('(');
       },
       action: () => {
-        if (!this.#isNumber(last) && last !== ')') {
+        if (last === '(' && this.#chain.length === 1) {
+          return;
+        }
+        
+        if (['(', ')'].includes(last)) {
+          return;
+        }
+        
+        if (!this.#isNumber(last)) {
           this.#chain[index] = value;
           return;
         }
