@@ -128,14 +128,12 @@ class Calculator {
     const isNumber = !Number.isNaN(number);
 
     if (isNumber && this.#chain.length === 0) {
-      this.#operation = '';
       this.#chain.push(number);
       return;
     }
 
     if (isNumber) {
       if (this.#operation) {
-        this.#operation = '';
         this.#chain = [];
       }
 
@@ -272,11 +270,14 @@ const calculator = new Calculator();
 
 for (const button of buttons) {
   button.addEventListener('click', function() {
-    const self = this;
-    const value = self.getAttribute('data-key');
-
+    const value = this.getAttribute('data-key');
+    
+    if (calculator.operation() !== '') {
+      calculator.setValue('c');
+      operation.innerHTML = '';
+    }
+    
     calculator.setValue(value);
-    operation.innerHTML = '';
 
     if (value === '=') {
       result.innerHTML = calculator.result();
@@ -295,7 +296,6 @@ const themes = document.querySelectorAll('button[data-theme]');
 for (const theme of themes) {
   theme.addEventListener('click', function () {
      const value = this.getAttribute('data-theme');
-     console.log(value);
      
      document.documentElement.className = value;
   });
