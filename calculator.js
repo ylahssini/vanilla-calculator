@@ -1,4 +1,6 @@
-document.documentElement.className = 'light';
+const mode = localStorage.getItem('mode');
+
+document.documentElement.className = mode || 'light';
 
 class Calculator {
   #result = ''
@@ -317,5 +319,6 @@ for (const theme of themes) {
      const value = this.getAttribute('data-theme');
      
      document.documentElement.className = value;
+     localStorage.setItem('mode', value);
   });
 }
