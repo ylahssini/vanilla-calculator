@@ -289,3 +289,14 @@ for (const button of buttons) {
     return;
   });
 }
+
+const themes = document.querySelectorAll('button[data-theme]');
+
+for (const theme of themes) {
+  theme.addEventListener('click', function () {
+     const value = this.getAttribute('data-theme');
+     console.log(value);
+     
+     document.documentElement.className = value;
+  });
+}
