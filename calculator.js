@@ -241,11 +241,12 @@ class Calculator {
         this.#chain.push('(');
       },
       action: () => {
-        if (last === '(' && this.#chain.length === 1) {
+        if (last === '(') {
           return;
         }
         
-        if (['(', ')'].includes(last)) {
+        if (last === ')') {
+          this.#chain.push(value);
           return;
         }
         
@@ -316,9 +317,9 @@ const themes = document.querySelectorAll('button[data-theme]');
 
 for (const theme of themes) {
   theme.addEventListener('click', function () {
-     const value = this.getAttribute('data-theme');
+    const value = this.getAttribute('data-theme');
      
-     document.documentElement.className = value;
-     localStorage.setItem('mode', value);
+    document.documentElement.className = value;
+    localStorage.setItem('mode', value);
   });
 }
