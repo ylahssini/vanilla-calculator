@@ -301,7 +301,7 @@ for (const button of buttons) {
     calculator.setValue(value);
 
     if (value === '=') {
-      result.innerHTML = calculator.result();
+      result.innerHTML = calculator.result() || '';
       operation.innerHTML = calculator.operation();
 
       return;
