@@ -309,7 +309,6 @@ for (const button of buttons) {
     }
 
     result.innerHTML = calculator.chain();
-    return;
   });
 }
 
@@ -327,7 +326,12 @@ for (const theme of themes) {
 document.addEventListener('keydown', (event) => {
   const { key } = event;
   
-  if(/\d+/g.test(key)) {
+  if (calculator.operation() !== '') {
+    calculator.setValue('c');
+    operation.innerHTML = '';
+  }
+  
+  if(/\d+/g.test(key) || '+-/,.*×÷()c'.includes(key) || key === 'Backspace') {
     calculator.setValue(key);
   }
   
@@ -337,4 +341,6 @@ document.addEventListener('keydown', (event) => {
     
     return;
   }
+  
+  result.innerHTML = calculator.chain();
 });
