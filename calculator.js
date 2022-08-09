@@ -331,11 +331,32 @@ document.addEventListener('keydown', (event) => {
     operation.innerHTML = '';
   }
   
-  if(/\d+/g.test(key) || '+-/,.*×÷()c'.includes(key) || key === 'Backspace') {
-    calculator.setValue(key);
+  if(/\d+/g.test(key) || '+-.×÷c'.includes(key)) {
+    calculator.setValue(key.toLowerCase());
+  }
+
+  if ('()'.includes(key)) {
+    calculator.setValue('()');
+  }
+
+  if (key === ',') {
+    calculator.setValue('.');
+  }
+
+  if (key === '*') {
+    calculator.setValue('×');
+  }
+
+  if (key === '/') {
+    calculator.setValue('÷');
+  }
+
+  if (key === 'Backspace') {
+    calculator.setValue('<-');
   }
   
   if (['=', 'Enter'].includes(key)) {
+    calculator.setValue('=');
     result.innerHTML = calculator.result() || '';
     operation.innerHTML = calculator.operation();
     
