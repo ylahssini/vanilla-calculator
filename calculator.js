@@ -327,39 +327,28 @@ document.addEventListener('keydown', (event) => {
   const { key } = event;
   
   if (calculator.operation() !== '') {
-    calculator.setValue('c');
-    operation.innerHTML = '';
+    document.querySelector('[data-key="c"]').click();
   }
   
   if(/\d+/g.test(key) || '+-.×÷c'.includes(key)) {
-    calculator.setValue(key.toLowerCase());
+    document.querySelector(`[data-key="${key.toLowerCase()}"]`).click();
   }
 
-  if ('()'.includes(key)) {
-    calculator.setValue('()');
+  const mapping = {
+    '(': () => document.querySelector('[data-key="()"]').click(),
+    ')': () => document.querySelector('[data-key="()"]').click(),
+    ',': () => document.querySelector('[data-key="."]').click(),
+    '*': () => document.querySelector('[data-key="×"]').click(),
+    '/': () => document.querySelector('[data-key="÷"]').click(),
+    'Backspace': () => document.querySelector('[data-key="<-"]').click(),
   }
 
-  if (key === ',') {
-    calculator.setValue('.');
-  }
-
-  if (key === '*') {
-    calculator.setValue('×');
-  }
-
-  if (key === '/') {
-    calculator.setValue('÷');
-  }
-
-  if (key === 'Backspace') {
-    calculator.setValue('<-');
+  if (key in mapping) {
+    mapping[key]();
   }
   
   if (['=', 'Enter'].includes(key)) {
-    calculator.setValue('=');
-    result.innerHTML = calculator.result() || '';
-    operation.innerHTML = calculator.operation();
-    
+    document.querySelector('[data-key="="]').click();
     return;
   }
   
