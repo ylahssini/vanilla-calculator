@@ -6,6 +6,10 @@
   tap-highlight-color: transparent;
 }
 
+:root {
+  --font: "Raleway", sans-serif;
+}
+
 :root.light {
   --bg-buttons: #f8f8f8;
   --bg-body: #f2f2f2;
@@ -22,7 +26,8 @@
   --filter: invert(100%);
 }
 
-.light button.calculator--theme--dark, .dark button.calculator--theme--light {
+.light button.calculator--theme--dark,
+.dark button.calculator--theme--light {
   opacity: .25;
 }
 
@@ -34,7 +39,7 @@ button {
 
 body {
   background-color: var(--bg-body);
-  font: 300 1rem "Raleway", sans-serif;
+  font: 300 1rem var(--font);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,8 +143,7 @@ h1 {
 .calculator--app--buttons>button {
   border-radius: 12px;
   color: var(--text-color);
-  font-size: 1.35rem;
-  font-weight: 300;
+  font: 300 1.35rem var(--font);
   min-height: 60px;
   min-width: 60px;
   transition: all .5s cubic-bezier(0.215, 0.610, 0.355, 1);
@@ -150,7 +154,17 @@ h1 {
   color: orangered;
 }
 
+.calculator--app--buttons>button:hover {
+  background-color: rgba(0, 0, 0, 0.115);
+  border-radius: 12px;
+}
+
 @media (pointer: coarse) {
+  .calculator--app--buttons>button:hover {
+    background-color: transparent;
+    border-radius: 0;
+  }
+
   .calculator--app--buttons>button:active {
     background-color: rgba(0, 0, 0, 0.115);
     border-radius: 12px;

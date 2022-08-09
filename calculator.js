@@ -323,3 +323,18 @@ for (const theme of themes) {
     localStorage.setItem('mode', value);
   });
 }
+
+document.addEventListener('keydown', (event) => {
+  const { key } = event;
+  
+  if(/\d+/g.test(key)) {
+    calculator.setValue(key);
+  }
+  
+  if (['=', 'Enter'].includes(key)) {
+    result.innerHTML = calculator.result() || '';
+    operation.innerHTML = calculator.operation();
+    
+    return;
+  }
+});
