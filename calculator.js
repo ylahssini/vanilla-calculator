@@ -4,6 +4,7 @@ document.documentElement.className = mode || 'light';
 
 const numberEffect = new Audio('audio/number-effect.mp3');
 const operatorEffect = new Audio('audio/operator-effect.mp3');
+const themeEffect = new Audio('audio/theme-effect.mp3');
 
 class Calculator {
   #result = ''
@@ -325,7 +326,9 @@ const themes = document.querySelectorAll('button[data-theme]');
 for (const theme of themes) {
   theme.addEventListener('click', function () {
     const value = this.getAttribute('data-theme');
-     
+
+    themeEffect.play();
+
     document.documentElement.className = value;
     localStorage.setItem('mode', value);
   });
