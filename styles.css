@@ -212,6 +212,10 @@ h1 {
   transition: all .5s cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 
+.calculator--app--buttons>button:focus {
+  outline: 0;
+}
+
 .calculator--app--buttons>button:nth-of-type(-n+3),
 .calculator--app--buttons>button:nth-of-type(4n) {
   color: orangered;
