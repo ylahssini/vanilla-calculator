@@ -2,6 +2,9 @@ const mode = localStorage.getItem('mode');
 
 document.documentElement.className = mode || 'light';
 
+const numberEffect = new Audio('audio/number-effect.mp3');
+const operatorEffect = new Audio('audio/operator-effect.mp3');
+
 class Calculator {
   #result = ''
   #operation = ''
@@ -130,11 +133,14 @@ class Calculator {
     const isNumber = !Number.isNaN(number);
 
     if (isNumber && this.#chain.length === 0) {
+      numberEffect.play();
       this.#chain.push(number);
       return;
     }
 
     if (isNumber) {
+      numberEffect.play();
+
       if (this.#operation) {
         this.#chain = [];
       }
@@ -260,11 +266,13 @@ class Calculator {
     }
 
     if ('+-×÷'.includes(value)) {
+      operatorEffect.play();
       operator.action();
       return;
     }
 
     if (value in operator) {
+      operatorEffect.play();
       operator[value]();
     }
 
@@ -302,7 +310,7 @@ for (const button of buttons) {
     calculator.setValue(value);
 
     if (value === '=') {
-      result.innerHTML = calculator.result() || '';
+      result.innerHTML = typeof calculator.result() === 'number' ? calculator.result() : '';
       operation.innerHTML = calculator.operation();
 
       return;
