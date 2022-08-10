@@ -16,21 +16,23 @@
   <main>
     <h1>Vanilla calculator</h1>
     <section class="calculator">
-      <aside class="calculator--theme">
-        <button type="button" class="calculator--theme--light" data-theme="light">
-          <img src="icons/sun.svg" width="20" height="20" />
-        </button>
-        <button type="button" class="calculator--theme--dark" data-theme="dark"><img src="icons/moon.svg" width="20" height="20" /></button>
-      </aside>
-
       <div class="calculator--app">
         <header>
-          <b data-operation></b>
-          <strong data-result></strong>
+          <aside class="calculator--app--theme">
+            <button type="button" class="calculator--theme--light" data-theme="light">
+              <img src="icons/sun.svg" width="20" height="20" />
+            </button>
+            <button type="button" class="calculator--theme--dark" data-theme="dark"><img src="icons/moon.svg" width="20" height="20" /></button>
+          </aside>
+          
+          <div class="calculator--app--result">
+            <b data-operation></b>
+            <strong data-result></strong>
+          </div>
         </header>
 
         <footer class="calculator--app--buttons">
-          <button type="button" data-key="c">C</button>
+          <button type="button" data-key="c">c</button>
           <button type="button" data-key="+/-">+/-</button>
           <button type="button" data-key="()">()</button>
           <button type="button" data-key="÷">÷</button>

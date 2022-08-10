@@ -65,7 +65,30 @@ h1 {
   font-weight: 300;
   font-size: 1.5rem;
   text-align: center;
+  transition: color .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 0 0 1rem;
+}
+
+@keyframes enterResult {
+  from {
+    transform: translateY(10rem);
+  }
+
+  to {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes enterButtons {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
 }
 
 .by {
@@ -77,14 +100,18 @@ h1 {
   width: 100%;
 }
 
-.calculator {
+.calculator--app>header {
+  animation: enterResult 1s cubic-bezier(0.86, 0, 0.07, 1) .3s 1 forwards;
   background-color: var(--bg-calculator);
-  border-radius: 12px;
+  border-radius: 12px 12px 0 0;
+  transform: translateY(10rem);
   padding-top: .5rem;
+  position: relative;
   transition: background-color .5s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 1;
 }
 
-.calculator--theme {
+.calculator--app--theme {
   border-radius: 6px;
   background-color: var(--bg-buttons);
   display: flex;
@@ -97,19 +124,19 @@ h1 {
   width: min-content;
 }
 
-.calculator--theme>button {
+.calculator--app--theme>button {
   display: block;
   transition: filter .2s cubic-bezier(0.23, 1, 0.320, 1);
   filter: var(--filter);
 }
 
-.calculator--app>header {
+.calculator--app--result {
   padding: .5rem;
   text-align: right;
 }
 
-.calculator--app b,
-.calculator--app strong {
+.calculator--app--result b,
+.calculator--app--result strong {
   display: block;
   word-break: break-all;
 }
@@ -130,6 +157,7 @@ h1 {
 }
 
 .calculator--app--buttons {
+  animation-name: enterButtons 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s 1 forwards;
   border-radius: 12px;
   background-color: var(--bg-buttons);
   display: grid;
@@ -137,6 +165,8 @@ h1 {
   grid-template-columns: repeat(4, 1fr);
   grid-auto-flow: dense;
   transition: background-color .5s cubic-bezier(0.23, 1, 0.320, 1);
+  position: relative;
+  z-index: 2;
   width: fit-content;
 }
 
