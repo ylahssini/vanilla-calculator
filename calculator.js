@@ -358,6 +358,8 @@ document.addEventListener('keydown', (event) => {
     '*': () => document.querySelector('[data-key="×"]').click(),
     '/': () => document.querySelector('[data-key="÷"]').click(),
     'Backspace': () => document.querySelector('[data-key="<-"]').click(),
+    d: () => document.querySelector('[data-theme="dark"]').click(),
+    l: () => document.querySelector('[data-theme="light"]').click(),
   }
 
   if (key in mapping) {
