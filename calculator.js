@@ -167,7 +167,13 @@ class Calculator {
         }
 
         this.#updateResult();
-        this.#chain = [this.#result];
+
+        if (this.#isNumber(this.#result)) {
+          this.#chain = [this.#result];
+        } else {
+          this.#result = '';
+          this.#chain = [];
+        }
       },
       c: () => {
         this.#chain = [];
