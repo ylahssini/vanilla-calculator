@@ -342,11 +342,11 @@ for (const theme of themes) {
 
 document.addEventListener('keydown', (event) => {
   const { key } = event;
-
-  if (calculator.operation() !== '') {
+  
+  if (calculator.operation() !== '' && !['d', 'l'].includes(key)) {
     document.querySelector('[data-key="c"]').click();
   }
-  
+
   if(/\d+/g.test(key) || '+-.×÷c'.includes(key)) {
     document.querySelector(`[data-key="${key.toLowerCase()}"]`).click();
   }
@@ -364,6 +364,10 @@ document.addEventListener('keydown', (event) => {
 
   if (key in mapping) {
     mapping[key]();
+
+    if (['d', 'l'].includes(key)) {
+      return;
+    }
   }
   
   if (['=', 'Enter'].includes(key)) {
