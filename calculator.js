@@ -33,7 +33,7 @@ class Calculator {
       return;
     }
 
-    this.#chain[index] = parseFloat(`${last}${value}`);
+    this.#chain[index] = `${last}${value}`;
   }
 
   #updateChainBetweenParentheses(list) {
@@ -75,11 +75,11 @@ class Calculator {
   }
 
   #updateChainByOperator(chain) {
-    let result = chain[0];
+    let result = parseFloat(chain[0]);
 
     for (let i = 1; i < chain.length; i++) {
       const element = chain[i];
-      const next = chain[i + 1];
+      const next = parseFloat(chain[i + 1]);
 
       if (typeof element === 'string') {
         if (element === '+') {
@@ -100,8 +100,8 @@ class Calculator {
       const element = chain[i];
 
       if (element === operator) {
-        const prev = chain[i - 1];
-        const next = chain[i + 1];
+        const prev = parseFloat(chain[i - 1]);
+        const next = parseFloat(chain[i + 1]);
 
         if (operator === '×') {
           chain[i + 1] = prev * next;
@@ -180,7 +180,7 @@ class Calculator {
         }
 
         if (this.#isNumber(last)) {
-          this.#chain[index] = parseFloat(last.toString().slice(0, -1));
+          this.#chain[index] = last.toString().slice(0, -1);
 
           if (Number.isNaN(this.#chain[index]) && index === 0) {
             this.#chain = [];
@@ -302,12 +302,12 @@ const calculator = new Calculator();
 for (const button of buttons) {
   button.addEventListener('click', function() {
     const value = this.getAttribute('data-key');
-    
+
     if (calculator.operation() !== '') {
       calculator.setValue('c');
       operation.innerHTML = '';
     }
-    
+
     calculator.setValue(value);
 
     if (value === '=') {
@@ -336,7 +336,7 @@ for (const theme of themes) {
 
 document.addEventListener('keydown', (event) => {
   const { key } = event;
-  
+
   if (calculator.operation() !== '') {
     document.querySelector('[data-key="c"]').click();
   }
