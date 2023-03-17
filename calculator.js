@@ -142,10 +142,6 @@ class Calculator {
     if (isNumber) {
       numberEffect.play();
 
-      if (this.#operation) {
-        this.#chain = [];
-      }
-
       this.#updateLastNumber(number);
       return;
     }
@@ -310,7 +306,6 @@ for (const button of buttons) {
     const value = this.getAttribute('data-key');
 
     if (calculator.operation() !== '') {
-      calculator.setValue('c');
       operation.innerHTML = '';
     }
 
